@@ -61,7 +61,7 @@ const SignUp = () => {
       toast.error("Ju lutem plotësoni të gjitha fushat.");
     }
   };
-
+//koment
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4">
