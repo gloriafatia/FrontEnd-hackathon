@@ -15,6 +15,7 @@ import Contact from "./page/Contact";
 import About from "./page/About";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
+import i18n from "./config/i18n";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="kontakt" element={<Contact />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
+      <Route path="i18n" element={<i18n />} />
     </Route>
   )
 );

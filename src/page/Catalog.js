@@ -33,8 +33,6 @@ function Catalog() {
     fetchItems();
   }, [filter, priceRange, currentPage]);
 
-  
-
   // Handler for slider change
   const handleSliderChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -42,13 +40,13 @@ function Catalog() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto bg-gray-100 rounded-lg shadow-lg">
       {/* Filters */}
-      <h2 className="text-2xl font-semibold mb-4">Filters</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-green-700">Filters</h2>
       <div className="mb-6 flex flex-col md:flex-row md:items-end md:space-x-6 space-y-4 md:space-y-0">
         {/* Title Filter */}
         <div className="flex-1">
-          <label className="block font-medium mb-1">Title</label>
+          <label className="block font-medium mb-1 text-gray-700">Title</label>
           <input
             type="text"
             placeholder="Filter by title..."
@@ -57,13 +55,13 @@ function Catalog() {
               setCurrentPage(1);
               setFilter(e.target.value);
             }}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
         {/* Price Range Filter */}
         <div className="flex-1">
-          <label className="block font-medium mb-1">Price Range: LEK {priceRange[0]} – LEK {priceRange[1]}</label>
+          <label className="block font-medium mb-1 text-gray-700">Price Range: LEK {priceRange[0]} – LEK {priceRange[1]}</label>
           <Slider
             value={priceRange}
             onChange={handleSliderChange}
@@ -74,20 +72,21 @@ function Catalog() {
             step={1}
             valueLabelPrecision={0}
             className="w-full"
+            sx={{ color: '#4CAF50' }} // Green color for the slider
           />
         </div>
       </div>
 
       {/* Catalog Title */}
       <div className="mb-4">
-        <h2 className="text-2xl font-semibold">Catalog Items</h2>
+        <h2 className="text-2xl font-semibold text-green-700">Catalog Items</h2>
       </div>
 
       {/* Catalog Items */}
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items && items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id} className="bg-white p-4 rounded-lg shadow-md flex flex-col max-w-xs mx-auto">
+            <div key={item.id} className="bg-white p-4 rounded-lg shadow-md flex flex-col max-w-xs mx-auto hover:shadow-xl transition-shadow duration-300">
               <div className="flex justify-center mb-4">
                 <img
                   src={item.image ? URL.createObjectURL(new Blob([item.image])) : placeholderImage}
@@ -95,7 +94,7 @@ function Catalog() {
                   className="max-w-[250px] h-auto object-contain rounded-md"
                 />
               </div>
-              <h2 className="text-xl font-semibold">{item.title}</h2>
+              <h2 className="text-xl font-semibold text-gray-800">{item.title}</h2>
               <p className="text-gray-600">{item.description}</p>
               <p className="text-lg font-bold text-green-500">{item.price} USD</p>
               <p className="text-sm text-gray-500">{item.userName}</p>
@@ -103,7 +102,7 @@ function Catalog() {
             </div>
           ))
         ) : (
-          <div className="text-center col-span-full">No results found.</div>
+          <div className="text-center col-span-full text-gray-500">No results found.</div>
         )}
       </div>
 
@@ -113,16 +112,16 @@ function Catalog() {
           {totalPages > 1 && (
             <button
               onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
-              className="px-4 py-2 border border-gray-300 rounded-md"
+              className="px-4 py-2 border border-gray-300 rounded-md bg-green-500 text-white hover:bg-green-600"
             >
               Previous
             </button>
           )}
-          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <span className="text-gray-700">{`Page ${currentPage} of ${totalPages}`}</span>
           {totalPages > 1 && (
             <button
               onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
-              className="px-4 py-2 border border-gray-300 rounded-md"
+              className="px-4 py-2 border border-gray-300 rounded-md bg-green-500 text-white hover:bg-green-600"
             >
               Next
             </button>
