@@ -5,8 +5,10 @@ import { GrHide } from "react-icons/gr";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [data, setData] = useState({
@@ -46,14 +48,12 @@ const Login = () => {
         );
 
         const dataRes = await fetchData.json();
-        console.log(dataRes);
-        toast(dataRes.message);
 
         if (dataRes.access_token) {
           // Save token
-          localStorage.setItem("authToken", dataRes.access_token);
-          // Navigate to home or dashboard
+          login(dataRes.access_token);
           navigate("/krye");
+        
         }
       } catch (error) {
         toast.error("Gabim gjatë kyçjes.");

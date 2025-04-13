@@ -3,11 +3,48 @@ import { Link } from "react-router-dom";
 import logo from "../assets/Brown Vintage Retro Illustration Farming and Organic Product Logo.png";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoCartSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const { token, userName, role, logout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true); 
+    }
+  }, [token]);
+
   const handleShowMenu = () => {
     setShowMenu((previous) => !previous);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("authToken"),
+        }),
+      });
+
+ 
+        logout();
+        setIsLoggedIn(false);
+        navigate("/login");
+    
+      
+    } catch (error) {
+      console.error("Error logging out:", error);
+      toast.error("Gabim në server gjatë daljes.");
+    }
   };
 
   return (
