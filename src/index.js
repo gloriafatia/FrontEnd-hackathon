@@ -10,7 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./page/Home";
-import Menu from "./page/Menu";
+import Catalog from "./page/Catalog";
 import Contact from "./page/Contact";
 import About from "./page/About";
 import Login from "./page/Login";
@@ -19,12 +19,12 @@ import SignUp from "./page/SignUp";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="/krye" element={<Home />} />
-      <Route path="/katalogu" element={<Menu />} />
-      <Route path="/rreth" element={<About />} />
-      <Route path="/kontakt" element={<Contact />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route index element={<Home />} />
+      <Route path="katalogu" element={<Catalog />} />
+      <Route path="rreth" element={<About />} />
+      <Route path="kontakt" element={<Contact />} />
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
     </Route>
   )
 );
