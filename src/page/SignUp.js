@@ -52,7 +52,7 @@ const SignUp = () => {
         toast(dataRes.message);
 
         if (dataRes) {
-          navigate("/krye");
+          navigate("/login");
         }
       } catch (error) {
         toast.error("Gabim gjatë regjistrimit.");

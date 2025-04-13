@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import placeholderImage from '../assets/placeholder.png';
 import { Slider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext'; // Assuming you have an AuthContext
 
 function Catalog() {
   const [items, setItems] = useState([]);
@@ -9,6 +11,12 @@ function Catalog() {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [showModal, setShowModal] = useState(false); // Modal visibility state
+  const [offerDescription, setOfferDescription] = useState(''); // Offer description state
+  const [selectedPostId, setSelectedPostId] = useState(null); // Selected post ID for the offer
+
+  const navigate = useNavigate();
+  const { token } = useAuth(); // Get token from AuthContext
 
   // Function to fetch data from backend
   useEffect(() => {
@@ -22,7 +30,6 @@ function Catalog() {
             maxPrice: priceRange[1]
           },
         });
-        console.log(res);
         setItems(res.data.content || []);
         setTotalPages(res.data.totalPages || 0);
       } catch (err) {
@@ -34,12 +41,51 @@ function Catalog() {
     fetchItems();
   }, [filter, priceRange, currentPage]);
 
-
-
   // Handler for slider change
   const handleSliderChange = (event, newValue) => {
     setPriceRange(newValue);
     setCurrentPage(1);
+  };
+
+  // Open the modal and set selected post ID
+  const handleMakeOffer = (postId) => {
+    if (!token) {
+      navigate('/login'); // Redirect to login if not authenticated
+    } else {
+      setSelectedPostId(postId); // Set the post ID for the offer
+      setShowModal(true); // Show the modal
+    }
+  };
+
+  // Handle offer submission
+  const handleOfferSubmit = async () => {
+    if (offerDescription.trim() === '') {
+      alert('Please provide a description for your offer!');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/posts_request/post/${selectedPostId}`,
+        { description: offerDescription },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send JWT token for authentication
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        alert('Offer submitted successfully!');
+        setShowModal(false); // Close the modal
+        setOfferDescription(''); // Clear the input
+      } else {
+        alert('Failed to submit offer!');
+      }
+    } catch (error) {
+      console.error('Error submitting offer:', error);
+      alert('An error occurred while submitting your offer.');
+    }
   };
 
   return (
@@ -102,6 +148,16 @@ function Catalog() {
               <p className="text-lg font-bold text-green-500">{item.price} LEK</p>
               <p className="text-sm text-gray-500">{item.userName}</p>
               <p className="text-xs text-gray-400">{new Date(item.createdDate).toLocaleDateString()}</p>
+
+              {/* Make an Offer Button */}
+              <div className="mt-4">
+                <button
+                  onClick={() => handleMakeOffer(item.id)}
+                  className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  Make an Offer
+                </button>
+              </div>
             </div>
           ))
         ) : (
@@ -129,6 +185,36 @@ function Catalog() {
               Next
             </button>
           )}
+        </div>
+      )}
+
+      {/* Offer Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-96">
+            <h3 className="text-xl font-semibold mb-4">Make an Offer</h3>
+            <textarea
+              value={offerDescription}
+              onChange={(e) => setOfferDescription(e.target.value)}
+              rows="4"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              placeholder="Describe your offer..."
+            />
+            <div className="mt-4 flex justify-end space-x-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleOfferSubmit}
+                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              >
+                Submit Offer
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

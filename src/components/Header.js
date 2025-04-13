@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Brown Vintage Retro Illustration Farming and Organic Product Logo.png";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -15,7 +15,8 @@ const Header = () => {
 
   useEffect(() => {
     if (token) {
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
+      console.log(userName);
     }
   }, [token]);
 
@@ -35,12 +36,9 @@ const Header = () => {
         }),
       });
 
- 
-        logout();
-        setIsLoggedIn(false);
-        navigate("/login");
-    
-      
+      logout();
+      setIsLoggedIn(false);
+      navigate("/login");
     } catch (error) {
       console.error("Error logging out:", error);
       toast.error("Gabim në server gjatë daljes.");
@@ -50,7 +48,6 @@ const Header = () => {
   return (
     <header className="fixed shadow-md w-full h-16 px-2 md:px-4 z-50 bg-[#eaf1e3]">
       {/* desktop */}
-
       <div className="flex items-center h-full justify-between">
         <Link to={""}>
           <div className="h-14">
@@ -64,22 +61,61 @@ const Header = () => {
             <Link to={"rreth"} className="text-[#3a6a40] hover:text-[#2d5031]">Rreth Nesh</Link>
             <Link to={"kontakt"} className="text-[#3a6a40] hover:text-[#2d5031]">Kontaktoni</Link>
           </nav>
-          <div className="text-2xl text-[#3a6a40] relative">
-            <IoCartSharp />
-            <div className="absolute -top-2 -right-1 text-white bg-[#4e8b57] h-4 w-4 rounded-full flex items-center justify-center text-[10px] leading-none">
-              0
-            </div>
-          </div>
           <div
             className="text-[#3a6a40] hover:text-[#2d5031] cursor-pointer"
             onClick={handleShowMenu}
           >
-            <div className="text-2xl">
+            <div className="text-lg text-[#3a6a40] flex items-center">
               <FaRegUserCircle />
+              {userName && (
+                <span className="ml-2 text-base text-[#3a6a40]">{userName}</span>
+              )}
             </div>
             {showMenu && (
               <div className="absolute right-2 bg-white py-2 px-2 shadow drop-shadow-md flex flex-col">
-                <Link to={"login"} className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031]">Kyçu</Link>
+                {isLoggedIn ? (
+  <>
+    {role === "ROLE_SELLER" && (
+      <>
+        <Link
+          to={"/postime"}
+          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+        >
+          Postimet e mia
+        </Link>
+        <Link
+          to={"/postime/krijo"}
+          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+        >
+          Krijo Postim
+        </Link>
+      </>
+    )}
+
+    {/* New "Post Requests" button */}
+    <Link
+      to={"/postime/requests"}
+      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+    >
+      Made Offers
+    </Link>
+
+    <button
+      onClick={handleLogout}
+      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+    >
+      Dil
+    </button>
+  </>
+) : (
+  <Link
+    to={"login"}
+    className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+  >
+    Kyçu
+  </Link>
+)}
+
               </div>
             )}
           </div>

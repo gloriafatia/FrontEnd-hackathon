@@ -17,13 +17,20 @@ import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 import PostCreate from "./page/PostCreate";
 import i18n from "./config/i18n";
+import Posts from "./page/Posts";
+import PostEdit from "./page/PostEdit";
+import PostRequests from "./page/PostRequests";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/krye" element={<Home />} />
       <Route path="katalogu" element={<Catalog />} />
+      <Route path="postime" element={<Posts />} />
       <Route path="postime/krijo" element={<PostCreate />} />
+      <Route path="/postime/edit-post/:postId" element={<PostEdit />} />
+      <Route path="/postime/requests" element={<PostRequests />} />
       <Route path="rreth" element={<About />} />
       <Route path="kontakt" element={<Contact />} />
       <Route path="login" element={<Login />} />

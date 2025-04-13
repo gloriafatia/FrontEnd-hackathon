@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       const decodedToken = jwtDecode(token);
       const decodedRole = decodedToken.authorities[0];
-      const decodedUserName = decodedToken.userName;
+      const decodedUserName = decodedToken.sub;
 
       // Set context state
       setRole(decodedRole);
