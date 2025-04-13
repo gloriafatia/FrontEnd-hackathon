@@ -19,12 +19,12 @@ import SignUp from "./page/SignUp";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />} />
-      <Route path="katalogu" element={<Menu />} />
-      <Route path="rreth" element={<About />} />
-      <Route path="kontakt" element={<Contact />} />
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<SignUp />} />
+      <Route path="/krye" element={<Home />} />
+      <Route path="/katalogu" element={<Menu />} />
+      <Route path="/rreth" element={<About />} />
+      <Route path="/kontakt" element={<Contact />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
     </Route>
   )
 );

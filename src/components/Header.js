@@ -1,18 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Brown Vintage Retro Illustration Farming and Organic Product Logo.png";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoCartSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const handleShowMenu = ()=> {
-    setShowMenu(preveious => !preveious)
-  }
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Kontrollo nëse përdoruesi është loguar
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    console.log(token)
+    if (token) {
+      setIsLoggedIn(true); // Përdoruesi është loguar
+    }
+  }, []);
+
+  const handleShowMenu = () => {
+    setShowMenu((previous) => !previous);
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Send logout request to the server to invalidate the token
+      const response = await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("authToken"), // send the token to the server
+        }),
+      });
+
+      // Handle server response
+ 
+        // If logout is successful on the server
+        localStorage.removeItem("authToken");
+        setIsLoggedIn(false);
+        navigate("/login"); // Redirect to login page
+    
+      
+    } catch (error) {
+      console.error("Error logging out:", error);
+      toast.error("Gabim në server gjatë daljes.");
+    }
+  };
+
   return (
     <header className="fixed shadow-md w-full h-16 px-2 md:px-4 z-50 bg-white">
-      {/* desktop */}
-
       <div className="flex items-center h-full justify-between">
         <Link to={""}>
           <div className="h-14">
@@ -21,7 +61,7 @@ const Header = () => {
         </Link>
         <div className="flex items-center gap-4 md:gap-7">
           <nav className="flex gap-4 md:gap-6 text-base md:text-lg">
-            <Link to={""}>Krye</Link>
+            <Link to={"krye"}>Krye</Link>
             <Link to={"katalogu"}>Katalogu</Link>
             <Link to={"rreth"}>Rreth Nesh</Link>
             <Link to={"kontakt"}>Kontaktoni</Link>
@@ -32,20 +72,32 @@ const Header = () => {
               0
             </div>
           </div>
-          <div className=" text-slate-600" onClick={handleShowMenu}>
-            <div className="text-2xl cursor-pointer " >
+          <div className="text-slate-600" onClick={handleShowMenu}>
+            <div className="text-2xl cursor-pointer">
               <FaRegUserCircle />
             </div>
             {showMenu && (
               <div className="absolute right-2 bg-white py-2 px-2 shadow drop-shadow-md flex flex-col">
-                <Link to={"login"} className="whitespace-nowrap cursor-pointer">Kyçu</Link>
+                {isLoggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="whitespace-nowrap cursor-pointer"
+                  >
+                    Dil
+                  </button>
+                ) : (
+                  <Link
+                    to={"login"}
+                    className="whitespace-nowrap cursor-pointer"
+                  >
+                    Kyçu
+                  </Link>
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {/* mobile */}
     </header>
   );
 };

@@ -51,8 +51,8 @@ const SignUp = () => {
         const dataRes = await fetchData.json();
         toast(dataRes.message);
 
-        if (dataRes.alert) {
-          navigate("/login");
+        if (dataRes) {
+          navigate("/krye");
         }
       } catch (error) {
         toast.error("Gabim gjatë regjistrimit.");
@@ -61,7 +61,7 @@ const SignUp = () => {
       toast.error("Ju lutem plotësoni të gjitha fushat.");
     }
   };
-//koment
+
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4">
@@ -139,14 +139,14 @@ const SignUp = () => {
             <option value="BUYER">Konsumator</option>
           </select>
           <button className="w-full max-w-[150px] m-auto  bg-red-500 hover:bg-red-600 cursor-pointer  text-white text-xl font-medium text-center py-1 rounded-full mt-4">
-            Sign up
+            Regjistrohu
           </button>
         </form>
 
         <p className="text-left text-sm mt-2">
           Already have account ?{" "}
           <Link to={"/login"} className="text-red-500 underline">
-            Login
+            Kyçu
           </Link>
         </p>
       </div>

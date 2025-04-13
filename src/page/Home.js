@@ -1,11 +1,21 @@
-import React from 'react'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/krye");
+    }
+  }, [navigate]);
+
   return (
     <div>
-      Home
+      <h1>Welcome to the Homepage!</h1>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
