@@ -22,6 +22,7 @@ function Catalog() {
             maxPrice: priceRange[1]
           },
         });
+        console.log(res);
         setItems(res.data.content || []);
         setTotalPages(res.data.totalPages || 0);
       } catch (err) {
@@ -33,7 +34,7 @@ function Catalog() {
     fetchItems();
   }, [filter, priceRange, currentPage]);
 
-  
+
 
   // Handler for slider change
   const handleSliderChange = (event, newValue) => {
@@ -90,14 +91,14 @@ function Catalog() {
             <div key={item.id} className="bg-white p-4 rounded-lg shadow-md flex flex-col max-w-xs mx-auto">
               <div className="flex justify-center mb-4">
                 <img
-                  src={item.image ? URL.createObjectURL(new Blob([item.image])) : placeholderImage}
+                  src={placeholderImage}
                   alt={item.title}
                   className="max-w-[250px] h-auto object-contain rounded-md"
                 />
               </div>
               <h2 className="text-xl font-semibold">{item.title}</h2>
               <p className="text-gray-600">{item.description}</p>
-              <p className="text-lg font-bold text-green-500">{item.price} USD</p>
+              <p className="text-lg font-bold text-green-500">{item.price} LEK</p>
               <p className="text-sm text-gray-500">{item.userName}</p>
               <p className="text-xs text-gray-400">{new Date(item.createdDate).toLocaleDateString()}</p>
             </div>

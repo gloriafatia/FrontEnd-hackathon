@@ -5,20 +5,19 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoCartSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const { token, userName, role, logout } = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  // Kontrollo nëse përdoruesi është loguar
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    console.log(token)
     if (token) {
-      setIsLoggedIn(true); // Përdoruesi është loguar
+      setIsLoggedIn(true); 
     }
-  }, []);
+  }, [token]);
 
   const handleShowMenu = () => {
     setShowMenu((previous) => !previous);
@@ -26,23 +25,20 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      // Send logout request to the server to invalidate the token
       const response = await fetch("http://localhost:8080/api/auth/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: localStorage.getItem("authToken"), // send the token to the server
+          token: localStorage.getItem("authToken"),
         }),
       });
 
-      // Handle server response
  
-        // If logout is successful on the server
-        localStorage.removeItem("authToken");
+        logout();
         setIsLoggedIn(false);
-        navigate("/login"); // Redirect to login page
+        navigate("/login");
     
       
     } catch (error) {

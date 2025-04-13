@@ -15,12 +15,14 @@ import Contact from "./page/Contact";
 import About from "./page/About";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
+import PostCreate from "./page/PostCreate";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/krye" element={<Home />} />
       <Route path="katalogu" element={<Catalog />} />
+      <Route path="postime/krijo" element={<PostCreate />} />
       <Route path="rreth" element={<About />} />
       <Route path="kontakt" element={<Contact />} />
       <Route path="login" element={<Login />} />
