@@ -19,7 +19,7 @@ import SignUp from "./page/SignUp";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />} />
+      <Route path="/krye" element={<Home />} />
       <Route path="katalogu" element={<Catalog />} />
       <Route path="rreth" element={<About />} />
       <Route path="kontakt" element={<Contact />} />
