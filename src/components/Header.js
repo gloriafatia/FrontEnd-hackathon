@@ -75,7 +75,7 @@ const Header = () => {
                     )}
                     <Link to="/postime/requests" className="dropdown-link">{t("made_offers")}</Link>
                     {role === "ROLE_ADMIN" && (
-                      <Link to="/admin" className="dropdown-link">{t("admin_panel")}</Link>
+                      <Link to="/admin" className="dropdown-link">Admin Panel</Link>
                     )}
                     <button onClick={handleLogout} className="dropdown-link text-left">{t("logout_button")}</button>
                   </>
@@ -119,7 +119,7 @@ const Header = () => {
                     )}
                     <Link to="/postime/requests" className="dropdown-link">{t("made_offers")}</Link>
                     {role === "ROLE_ADMIN" && (
-                      <Link to="/admin" className="dropdown-link">{t("admin_panel")}</Link>
+                      <Link to="/admin" className="dropdown-link">{t("Admin Panel")}</Link>
                     )}
                     <button onClick={handleLogout} className="dropdown-link text-left">{t("logout_button")}</button>
                   </>
