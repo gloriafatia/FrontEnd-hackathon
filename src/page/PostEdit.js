@@ -17,7 +17,7 @@ const PostEdit = () => {
 
   // Fetch post details when the component loads
   useEffect(() => {
-    if (!token || role !== 'ROLE_SELLER') {
+    if ((!token || role !== 'ROLE_SELLER') && role!== 'ROLE_ADMIN') {
       navigate('/login');  // Redirect to login if not a seller
       return;
     }
@@ -83,7 +83,12 @@ const PostEdit = () => {
 
       if (response.status === 200) {
         toast.success('Post updated successfully!');
-        navigate(`/postime`);  // Navigate to the post detail page
+        if(role === 'ROLE_ADMIN') {
+          navigate(`/admin`);  // Navigate to admin page if the user is an admin
+        }
+        else{
+        navigate(`/postime`); 
+        } // Navigate to the post detail page
       } else {
         toast.error('Failed to update post');
       }

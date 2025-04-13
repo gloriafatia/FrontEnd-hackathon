@@ -8,6 +8,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Navigate, // Import Navigate
 } from "react-router-dom";
 import Home from "./page/Home";
 import Catalog from "./page/Catalog";
@@ -20,17 +21,21 @@ import i18n from "./config/i18n";
 import Posts from "./page/Posts";
 import PostEdit from "./page/PostEdit";
 import PostRequests from "./page/PostRequests";
+import Admin from "./page/Admin";
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      {/* Redirect root (/) to /krye */}
+      <Route path="/" element={<Navigate to="/krye" />} />
       <Route path="/krye" element={<Home />} />
       <Route path="katalogu" element={<Catalog />} />
       <Route path="postime" element={<Posts />} />
       <Route path="postime/krijo" element={<PostCreate />} />
       <Route path="/postime/edit-post/:postId" element={<PostEdit />} />
       <Route path="/postime/requests" element={<PostRequests />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="rreth" element={<About />} />
       <Route path="kontakt" element={<Contact />} />
       <Route path="login" element={<Login />} />

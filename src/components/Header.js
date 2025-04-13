@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Brown Vintage Retro Illustration Farming and Organic Product Logo.png";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoCartSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../contexts/AuthContext";
@@ -74,48 +73,57 @@ const Header = () => {
             {showMenu && (
               <div className="absolute right-2 bg-white py-2 px-2 shadow drop-shadow-md flex flex-col">
                 {isLoggedIn ? (
-  <>
-    {role === "ROLE_SELLER" && (
-      <>
-        <Link
-          to={"/postime"}
-          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
-        >
-          Postimet e mia
-        </Link>
-        <Link
-          to={"/postime/krijo"}
-          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
-        >
-          Krijo Postim
-        </Link>
-      </>
-    )}
+                  <>
+                    {role === "ROLE_SELLER" && (
+                      <>
+                        <Link
+                          to={"/postime"}
+                          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                        >
+                          Postimet e mia
+                        </Link>
+                        <Link
+                          to={"/postime/krijo"}
+                          className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                        >
+                          Krijo Postim
+                        </Link>
+                      </>
+                    )}
 
-    {/* New "Post Requests" button */}
-    <Link
-      to={"/postime/requests"}
-      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
-    >
-      Made Offers
-    </Link>
+                    {/* "Post Requests" button for sellers */}
+                    <Link
+                      to={"/postime/requests"}
+                      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                    >
+                      Made Offers
+                    </Link>
 
-    <button
-      onClick={handleLogout}
-      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
-    >
-      Dil
-    </button>
-  </>
-) : (
-  <Link
-    to={"login"}
-    className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
-  >
-    Kyçu
-  </Link>
-)}
+                    {/* "Admin Panel" button for admin role */}
+                    {role === "ROLE_ADMIN" && (
+                      <Link
+                        to={"/admin"}
+                        className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                      >
+                        Admin Panel
+                      </Link>
+                    )}
 
+                    <button
+                      onClick={handleLogout}
+                      className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                    >
+                      Dil
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to={"login"}
+                    className="whitespace-nowrap cursor-pointer text-[#3a6a40] hover:text-[#2d5031] w-full text-center"
+                  >
+                    Kyçu
+                  </Link>
+                )}
               </div>
             )}
           </div>
