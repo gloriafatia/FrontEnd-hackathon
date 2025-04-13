@@ -17,11 +17,11 @@ import About from "./page/About";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 import PostCreate from "./page/PostCreate";
-import i18n from "./config/i18n";
 import Posts from "./page/Posts";
 import PostEdit from "./page/PostEdit";
 import PostRequests from "./page/PostRequests";
 import Admin from "./page/Admin";
+import i18n from "./components/i18n";
 
 
 const router = createBrowserRouter(
